@@ -12,8 +12,8 @@ interface WorkoutGroup {
 interface WorkoutRepeat {
     weight: number;
     repeats: number;
-    restDuration: number;
-    repeatDuration: number;
+    restDuration?: number;
+    repeatDuration?: number;
 }
 
 interface Workout {
@@ -31,11 +31,11 @@ interface Settings {
 }
 
 interface DogeGymState {
-    workoutPlanStarted: boolean;
+    workoutPlanStarted?: boolean;
     workoutPlanActiveId?: string;
     workoutPlans: WorkoutPlan[];
     workouts: Workout[];
-    settings: Settings
+    settings?: Settings
 }
 
 export {
@@ -43,5 +43,6 @@ export {
     Workout,
     WorkoutRepeat,
     DogeGymState,
-    WorkoutGroup
+    WorkoutGroup,
+    Settings
 }
