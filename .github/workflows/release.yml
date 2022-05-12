@@ -39,7 +39,7 @@ jobs:
         working-directory: ./
         run: |
           echo "Start deploy to: ${HOST}"
-          mv dist backend-dist && tar czv backend-dist | ssh root@${HOST} 'cat | tar xz -C /var/www/backend/app'
+          mv dist backend-dist && tar czv backend-dist | ssh root@${HOST} 'cat | tar xz -C /var/www/backend/app/'
 
       - name: restart api app
         run: |
