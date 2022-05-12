@@ -42,8 +42,8 @@ jobs:
           mv dist backend-dist && tar czv backend-dist | ssh root@${HOST} 'cat | tar xz -C /var/www/backend/app'
 
       - name: restart api app
-          run: |
-            echo "restart API"
+        run: |
+          echo "restart API"
 
       - name: Finish Message
         run: |
