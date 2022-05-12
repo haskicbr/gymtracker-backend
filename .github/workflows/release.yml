@@ -44,6 +44,7 @@ jobs:
       - name: restart api app
         run: |
           echo "restart API"
+          ssh root@${HOST} 'pm2 restart  http-api-service'
 
       - name: Finish Message
         run: |
