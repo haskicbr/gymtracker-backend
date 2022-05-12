@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+env:
+  HOST: ${{ secrets.HOST}}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        working-directory: ./
+        run: npm install
+
+      - name: Build
+        working-directory: ./
+        run: npm run build
+
+      - name: Prepare SSH key
+        uses: kielabokkie/ssh-key-and-known-hosts-action@v1
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          ssh-host: ${{ secrets.HOST }}
+
+      - name: copy files
+        working-directory: ./
+        run: |
+          echo "Start deploy to: ${HOST}"
+          mv dist backend-dist && tar czv backend-dist | ssh root@${HOST} 'cat | tar xz -C /var/www/backend/app'
+
+      - name: restart api app
+          run: |
+            echo "restart API"
+
+      - name: Finish Message
+        run: |
+          echo "deploy completed"
+
+      - name: Notify On Error
+        if: ${{ failure() || cancelled() }}
+        run: |
+          echo "deploy error"
