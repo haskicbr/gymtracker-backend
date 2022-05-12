@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { DogeGymState, Workout, WorkoutPlan, WorkoutRepeat } from "../../../ts/interfaces";
+import {
+  DogeGymState,
+  Workout,
+  WorkoutPlan,
+  WorkoutRepeat,
+} from '../../../ts/interfaces';
 
 @Injectable()
 export class GymStateParserService {
-
-  private readonly cellSeparator: string = ",";
-  private readonly rowSeparator: string = "\n";
+  private readonly cellSeparator: string = ',';
+  private readonly rowSeparator: string = '\n';
   private readonly dataSeparator: string = '_______________';
   private readonly rowDataSeparator: string[] = [
     this.dataSeparator,
@@ -16,49 +20,31 @@ export class GymStateParserService {
   ];
 
   private readonly CSVTitleRows = {
-    main: [
-      'Планы тренировок'
-    ],
+    main: ['Планы тренировок'],
 
-    mainWorkouts: [
-      'Упражненя'
-    ],
+    mainWorkouts: ['Упражненя'],
 
-    workoutPlan: [
-      'id', 'Название', 'Описание'
-    ],
-    workoutForPlan: [
-      'id', 'Упражнение в плане', 'Описание'
-    ],
-    workouts: [
-      'id', 'Упражнение', 'Описание'
-    ],
-    workoutRepeatsMain: [
-      'Подходы'
-    ],
-    workoutRepeats: [
-      'Вес', 'Количество повторов'
-    ]
+    workoutPlan: ['id', 'Название', 'Описание'],
+    workoutForPlan: ['id', 'Упражнение в плане', 'Описание'],
+    workouts: ['id', 'Упражнение', 'Описание'],
+    workoutRepeatsMain: ['Подходы'],
+    workoutRepeats: ['Вес', 'Количество повторов'],
   };
 
   private CSVParseSteps = {
-    workoutPlan: "workoutPlan",
-    workoutForPlan: "workoutForPlan",
-    workouts: "workouts",
-    workoutRepeats: "workoutRepeats",
+    workoutPlan: 'workoutPlan',
+    workoutForPlan: 'workoutForPlan',
+    workouts: 'workouts',
+    workoutRepeats: 'workoutRepeats',
   };
 
-
   public convertGymStateToCSV(state: DogeGymState): string {
-
     const csvStringRows: string[] = [];
     const csvRows = [];
 
     csvRows.push(this.CSVTitleRows.main);
 
     state.workoutPlans.forEach((workoutPlan: WorkoutPlan) => {
-
-
       csvRows.push(this.CSVTitleRows.workoutPlan);
 
       csvRows.push([
@@ -70,36 +56,30 @@ export class GymStateParserService {
       csvRows.push(this.CSVTitleRows.workoutForPlan);
 
       workoutPlan.workouts.forEach((workoutId: string) => {
-        const workout = state.workouts.find(e => e.id === workoutId) as Workout;
-        csvRows.push([
-          workout.id, workout.title, workout.description
-        ]);
+        const workout = state.workouts.find(
+          (e) => e.id === workoutId,
+        ) as Workout;
+        csvRows.push([workout.id, workout.title, workout.description]);
       });
       csvRows.push(this.rowDataSeparator);
     });
-
 
     csvRows.push(this.CSVTitleRows.mainWorkouts);
 
     state.workouts.forEach((workout: Workout) => {
       csvRows.push(this.CSVTitleRows.workouts);
 
-      csvRows.push([
-        workout.id, workout.title, workout.description
-      ]);
+      csvRows.push([workout.id, workout.title, workout.description]);
 
       csvRows.push(this.CSVTitleRows.workoutRepeatsMain);
       csvRows.push(this.CSVTitleRows.workoutRepeats);
 
       workout.repeats.forEach((workoutRepeat: WorkoutRepeat) => {
-        csvRows.push([
-          workoutRepeat.weight, workoutRepeat.repeats
-        ])
+        csvRows.push([workoutRepeat.weight, workoutRepeat.repeats]);
       });
 
       csvRows.push(this.rowDataSeparator);
     });
-
 
     csvRows.forEach((row: string[]) => {
       csvStringRows.push(row.join(this.cellSeparator));
@@ -109,16 +89,16 @@ export class GymStateParserService {
   }
 
   public convertCSVToState(stateCSV: string) {
-
     const state: DogeGymState = {
-      workoutPlans: [], workouts: []
-    }
+      workoutPlans: [],
+      workouts: [],
+    };
 
     const csvRows = stateCSV.split(this.rowSeparator);
 
     const rowSeparatorString = this.rowDataSeparator.join(this.cellSeparator);
 
-    const skippedRows = [rowSeparatorString];
+    const skippedRows = [rowSeparatorString, ''];
 
     for (const titleRowKey in this.CSVTitleRows) {
       const rowString = this.CSVTitleRows[titleRowKey].join(this.cellSeparator);
@@ -130,7 +110,6 @@ export class GymStateParserService {
     let currentWorkout: Workout = null;
 
     csvRows.forEach((row: string) => {
-
       if (row === this.CSVTitleRows.workoutPlan.join(this.cellSeparator)) {
         currentStep = this.CSVParseSteps.workoutPlan;
       }
@@ -155,7 +134,10 @@ export class GymStateParserService {
 
       if (currentStep === this.CSVParseSteps.workoutPlan) {
         currentWorkoutPlan = {
-          description: rowData[2], id: rowData[0], title: rowData[1], workouts: []
+          description: rowData[2],
+          id: rowData[0],
+          title: rowData[1],
+          workouts: [],
         };
         state.workoutPlans.push(currentWorkoutPlan);
       }
@@ -166,8 +148,11 @@ export class GymStateParserService {
 
       if (currentStep === this.CSVParseSteps.workouts) {
         currentWorkout = {
-          description: rowData[2], id: rowData[0], repeats: [], title: rowData[1]
-        }
+          description: rowData[2],
+          id: rowData[0],
+          repeats: [],
+          title: rowData[1],
+        };
 
         state.workouts.push(currentWorkout);
       }
@@ -175,8 +160,8 @@ export class GymStateParserService {
       if (currentStep === this.CSVParseSteps.workoutRepeats) {
         currentWorkout.repeats.push({
           weight: parseFloat(rowData[0]),
-          repeats: parseFloat(rowData[1])
-        })
+          repeats: parseFloat(rowData[1]),
+        });
       }
     });
 
