@@ -29,6 +29,15 @@ jobs:
         working-directory: ./
         run: npm run build
 
+      - name: Prepare .env
+        working-directory: ./
+        run: |
+          sed 's/\$DB_PORT/\${{ secrets.DB_PORT}}/g' .env
+          sed 's/\$DB_USERNAME/\${{ secrets.DB_USERNAME}}/g' .env
+          sed 's/\$DB_PASSWORD/\${{ secrets.DB_PASSWORD}}/g' .env
+          sed 's/\$DB_HOST/\${{ secrets.DB_HOST}}/g' .env
+          mv .env dist/.env
+
       - name: Prepare SSH key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1
         with:
