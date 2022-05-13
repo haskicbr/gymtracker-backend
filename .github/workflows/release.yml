@@ -32,10 +32,11 @@ jobs:
       - name: Prepare .env
         working-directory: ./
         run: |
-          sed 's/\$DB_PORT/${{ secrets.DB_PORT }}/g' .env > .env
-          sed 's/\$DB_USERNAME/${{ secrets.DB_USERNAME }}/g' .env > .env
-          sed 's/\$DB_PASSWORD/${{ secrets.DB_PASSWORD }}/g' .env > .env
-          sed 's/\$DB_HOST/${{ secrets.DB_HOST }}/g' .env >.env
+          sed -i 's/\$DB_PORT/${{ secrets.DB_PORT }}/g' .env 
+          sed -i 's/\$DB_USERNAME/${{ secrets.DB_USERNAME }}/g' .env 
+          sed -i 's/\$DB_PASSWORD/${{ secrets.DB_PASSWORD }}/g' .env 
+          sed -i 's/\$DB_HOST/${{ secrets.DB_HOST }}/g' .env
+          sed -i 's/\$DB_NAME/${{ secrets.DB_NAME }}/g' .env
           mv .env dist/.env
 
       - name: Prepare SSH key
