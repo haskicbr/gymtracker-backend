@@ -6,6 +6,8 @@ import {
   WorkoutRepeat,
 } from '../../../ts/interfaces';
 
+import { stripBom } from '../../../utils';
+
 @Injectable()
 export class GymStateParserService {
   private readonly cellSeparator: string = ',';
@@ -94,7 +96,7 @@ export class GymStateParserService {
       workouts: [],
     };
 
-    const csvRows = stateCSV.split(this.rowSeparator);
+    const csvRows = stripBom(stateCSV).split(this.rowSeparator);
 
     const rowSeparatorString = this.rowDataSeparator.join(this.cellSeparator);
 

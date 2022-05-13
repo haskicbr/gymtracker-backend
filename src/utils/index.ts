@@ -1,5 +1,3 @@
-import stripBom from "./strip-bom";
+import stripBom from './strip-bom';
 
-export default {
-  stripBom
-}
+export { stripBom };
