@@ -1,5 +1,5 @@
-import { WorkoutRepeat } from "../../../ts/interfaces";
-import { IsNumber, IsOptional } from "class-validator";
+import { WorkoutRepeat } from '../../../ts/interfaces';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export default class WorkoutRepeatDto implements WorkoutRepeat {
   @IsOptional()

@@ -5,7 +5,6 @@ import { MainController } from './controllers/main.controller';
 
 @Module({
   providers: [GymStateParserService],
-  controllers: [MainController]
+  controllers: [MainController],
 })
-export class WorkoutsModule {
-}
+export class WorkoutsModule {}

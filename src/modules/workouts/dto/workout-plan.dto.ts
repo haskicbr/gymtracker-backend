@@ -1,5 +1,5 @@
-import { IsArray, IsString } from "class-validator";
-import { WorkoutPlan } from "../../../ts/interfaces";
+import { IsArray, IsString } from 'class-validator';
+import { WorkoutPlan } from '../../../ts/interfaces';
 
 export default class WorkoutPlanDto implements WorkoutPlan {
   @IsString()

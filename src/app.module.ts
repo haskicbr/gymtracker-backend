@@ -4,11 +4,9 @@ import { AppService } from './app.service';
 
 import { WorkoutsModule } from './modules/workouts/workouts.module';
 
-
 @Module({
   imports: [WorkoutsModule],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -1,8 +1,6 @@
-import {
-  IsString
-} from 'class-validator';
+import { IsString } from 'class-validator';
 
-export default class StateLoadCsvDto{
+export default class StateLoadCsvDto {
   @IsString()
   csv: string;
 }

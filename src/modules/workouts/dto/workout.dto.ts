@@ -1,7 +1,7 @@
-import { IsString, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
-import { WorkoutRepeatDto } from "./index";
-import { Workout } from "../../../ts/interfaces";
+import { IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { WorkoutRepeatDto } from './index';
+import { Workout } from '../../../ts/interfaces';
 
 export default class WorkoutDto implements Workout {
   @IsString()
