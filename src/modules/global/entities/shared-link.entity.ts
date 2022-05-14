@@ -1,10 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('shared_links')
 export class SharedLink {
-  @PrimaryColumn('uuid')
-  readonly uid: string;
-
+  @PrimaryGeneratedColumn('uuid')
+  uid: string;
   @Column('longtext')
   content: string;
 }

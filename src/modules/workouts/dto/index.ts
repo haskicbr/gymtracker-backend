@@ -4,6 +4,7 @@ import WorkoutDto from './workout.dto';
 import WorkoutRepeatDto from './workout-repeat.dto';
 import SettingsDto from './settings.dto';
 import StateLoadCsvDto from './state-load-csv.dto';
+import StateShareDto from './state-share.dto';
 
 export {
   StateLoadDto,
@@ -12,4 +13,5 @@ export {
   WorkoutRepeatDto,
   SettingsDto,
   StateLoadCsvDto,
+  StateShareDto,
 };
