@@ -38,6 +38,10 @@ jobs:
           sed -i 's/\$DB_HOST/${{ secrets.DB_HOST }}/g' .env
           sed -i 's/\$DB_NAME/${{ secrets.DB_NAME }}/g' .env
           mv .env dist/.env
+          sed -i 's/\$REDIS_PWD/${{ secrets.REDIS_PWD }}/g' docker/docker-compose.yml
+          sed -i 's/\$POSTGRES_USER/${{ secrets.POSTGRES_USER }}/g' docker/docker-compose.yml 
+          sed -i 's/\$POSTGRES_PASSWORD/${{ secrets.POSTGRES_PASSWORD }}/g' docker/docker-compose.yml
+          mv docker/docker-compose.yml dist/docker-compose.yml
 
       - name: Prepare SSH key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1
