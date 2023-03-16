@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+
+  reneum-redis:
+    image: redis:6.2-alpine
+    restart: always
+    environment:
+      - REDIS_PWD=$REDIS_PWD
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass '$REDIS_PWD'
+    volumes:
+      - /var/www/services/data.redis:/data
+
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    ports:
+      - '5432:5432'
+    volumes:
+      - /var/www/services/data.db:/var/lib/postgresql/data
+volumes:
+  db.data:
+    driver: local
+  redis.data:
+    driver: local
