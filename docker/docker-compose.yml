@@ -10,7 +10,7 @@ services:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --requirepass '$REDIS_PWD'
     volumes:
-      - /var/www/services/data.redis:/data
+      - ../../data.redis:/data
 
   db:
     image: postgres:14.1-alpine
@@ -21,7 +21,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - /var/www/services/data.db:/var/lib/postgresql/data
+      - ../../data.db:/var/lib/postgresql/data
 volumes:
   db.data:
     driver: local
